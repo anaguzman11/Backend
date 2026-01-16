@@ -9,9 +9,6 @@ import { authenticate, authorize } from "./middlewares/auth.middleware";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Conectar a MongoDB
-connectDB();
-
 // Middleware para interpretar JSON
 app.use(express.json());
 
@@ -48,7 +45,10 @@ app.get("/api/saludo", (req: Request, res: Response) => {
   res.json({ mensaje: "Hola desde la API 🚀" });
 });
 
-// Iniciar el servidor HTTP
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT} 🚀`);
+// Conectar a MongoDB
+connectDB().then(() => {
+  // Iniciar el servidor HTTP
+  app.listen(PORT, () => {
+    console.log(`Servidor corriendo en http://localhost:${PORT} 🚀`);
+  });
 });
